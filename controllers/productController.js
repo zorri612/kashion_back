@@ -20,6 +20,17 @@ export const getProducts = async (req, res) => {
   }
 };
 
+// Obtener productos por categoría
+export const getProductsByCategory = async (req, res) => {
+  try {
+    const { category } = req.body;
+    const products = await Product.find({ category });
+    return res.json(products);
+  } catch (error) {
+    return res.status(500).json({ error: "Error obteniendo productos" });
+  }
+};
+
 // Obtener producto por ID
 export const getProductById = async (req, res) => {
   try {

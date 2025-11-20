@@ -6,6 +6,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+
+
 // Conectar BD
 connectDB();
 
@@ -15,12 +17,14 @@ import userRoutes from "./routes/user.js";
 import salesRoutes from "./routes/sales.js";
 import productRoutes from "./routes/products.js";
 import orderRoutes from "./routes/orderRoutes.js";
+import  getUserInfo  from "./routes/user.js";
 
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/sales", salesRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/orders", orderRoutes);
+app.use("/api/userinfo", getUserInfo);
 
 
 app.listen(5000, () => {

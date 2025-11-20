@@ -33,11 +33,15 @@ export const loginUser = async (req, res) => {
 // Información de usuario
 export const getUserInfo = async (req, res) => {
   try {
-    const user = await User.findById(req.params.id);
+    const user = await User.findById(req.params.email);
     if (!user) return res.status(404).json({ error: "Usuario no encontrado" });
 
     return res.json(user);
   } catch (error) {
-    return res.status(500).json({ error: "Error buscando usuario" });
+    return res.status(500).json(
+      { error: "Error buscando usuario" },
+      console.log(error)
+    );
+    
   }
 };

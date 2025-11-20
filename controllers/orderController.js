@@ -6,30 +6,45 @@ export const createOrder = async (req, res) => {
   try {
     const { userId, items } = req.body;
 
-    // Calcular total
     let total = 0;
 
     for (let item of items) {
       const product = await Product.findById(item.productId);
 
-      if (!product) return res.status(404).json({ error: "Producto no encontrado" });
+      if (!product)
+        return res.status(404).json({ error: "Producto no encontrado" });
 
-      if (product.stock < item.qty)
-        return res.status(400).json({ error: `Stock insuficiente para ${product.name}` });
+      // Buscar la talla
+      const tallaSeleccionada = product.tallas.find(
+        (t) => t.talla === item.talla
+      );
 
-      // Restar stock
-      product.stock -= item.qty;
+      if (!tallaSeleccionada)
+        return res.status(400).json({
+          error: `La talla ${item.talla} no existe para ${product.name}`
+        });
+
+      // Verificar stock de la talla
+      if (tallaSeleccionada.stock < item.qty)
+        return res.status(400).json({
+          error: `Stock insuficiente en talla ${item.talla} para ${product.name}`
+        });
+
+      // Descontar stock en la talla específica
+      tallaSeleccionada.stock -= item.qty;
       await product.save();
 
+      // Calcular subtotal
       total += product.price * item.qty;
     }
 
+    // Crear la orden
     const order = await Order.create({
       user: userId,
-      items: items.map(i => ({
+      items: items.map((i) => ({
         product: i.productId,
-        qty: i.qty,
-        price: i.price
+        talla: i.talla,
+        qty: i.qty
       })),
       total
     });
@@ -39,6 +54,7 @@ export const createOrder = async (req, res) => {
     return res.status(500).json({ error: "Error creando orden" });
   }
 };
+
 
 // Historial de compras
 export const getOrdersByUser = async (req, res) => {

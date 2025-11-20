@@ -16,8 +16,7 @@ const ProductSchema = new mongoose.Schema({
   },
   stock: {
     type: Number,
-    required: true,
-    default: 0,
+    required: false,
   },
   image: {
     type: String,
@@ -25,8 +24,15 @@ const ProductSchema = new mongoose.Schema({
   },
   category: {
     type: String,
-    default: "general",
+    default: "general", //ropaHombre, ropaMujer, accesorios, calzadoHombre, calzadoMujer
   },
+  tallas: [
+  {
+    talla: { type: String, required: true },
+    stock: { type: Number, required: true }
+  }
+]
+
 }, { timestamps: true });
 
 export default mongoose.model("Product", ProductSchema);
