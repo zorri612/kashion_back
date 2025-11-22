@@ -30,6 +30,21 @@ export const loginUser = async (req, res) => {
   }
 };
 
+export const getUserIds = async (req, res) => {
+  try {
+    // Devuelve un array de ids: ["id1", "id2", ...]
+    const ids = await User.distinct('_id');
+    return res.json(ids);
+
+    // Si prefieres devolver objetos con la propiedad _id:
+    // const users = await User.find().select('_id').lean();
+    // return res.json(users);
+  } catch (error) {
+    return res.status(500).json({ error: "Error obteniendo usuarios" });
+  }
+};
+
+
 // Información de usuario
 export const getUserInfo = async (req, res) => {
   try {

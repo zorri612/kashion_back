@@ -13,6 +13,7 @@ export const createProduct = async (req, res) => {
 // Obtener todos los productos
 export const getProducts = async (req, res) => {
   try {
+    
     const products = await Product.find();
     return res.json(products);
   } catch (error) {

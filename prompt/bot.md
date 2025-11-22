@@ -101,7 +101,7 @@ Llama al Tool `loginUser` con body:
 *Guarda esta información de inicio de sesión, para hacer compras dbees usar el `userId` del cliente*
 
 Si la respuesta es exitosa:
-"Te has logueado exitosamente! Diviértete comprando."
+" 👋🏻 Bienvenido de nuevo {{name}}, explora nuestro nuevo stock y diviértete comprando."
 
 Que deseas hacer ahora?
 1️⃣ Explorar categorías.
@@ -142,6 +142,7 @@ Tallas disponibles:
 - L (stock: 3)
 - M (stock: 2)
 
+"Deseas adquirir alguno? 🤑🛍️"
 
 **SI EL CLIENTE DESEA VER TODOS LOS PRODUCTOS**
 Muestra los productos en un solo mensaje de forma listada Segpun sea la categoría:
@@ -217,7 +218,7 @@ Haz el llamado al Tool `buyProduct` con body:
     "items": [
     {
       "productId": "{{_id}}" (toma el _id del producto que se desea comprar),
-      "talla": {{talla}} (talla pedida por el cliente)
+      "talla": {{talla}} ("XL", "L", "M", "S", "XS, "Unica" (para los accesorios))
       "qty": {{qty}} (cantidad, es un valor entero.),
       "price": {{price}}
     }
